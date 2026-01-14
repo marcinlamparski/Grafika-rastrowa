@@ -316,7 +316,7 @@ Tworzenie animowanych GIF-ów przy użyciu warstw.
 
 Kurs oparty jest na materiałach edukacyjnych serwisu **rrogacz.pl** autorstwa **Ryszarda Rogacza** (1999–2025), zawierającego profesjonalne ćwiczenia dla uczniów technikum informatycznego.
 
-Mini kurs ten stanowi kompilację teoretyczną do практических ćwiczeń dostępnych na oryginalnej stronie.
+Mini kurs ten stanowi kompilację teoretyczną do praktycznych ćwiczeń dostępnych na oryginalnej stronie.
 
 ---
 
