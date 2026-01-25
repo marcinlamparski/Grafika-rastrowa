@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kurs Grafiki Rastrowej - Technikum Informatyczne</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: #f5f5f5;
+            padding: 0;
+            border-bottom: 3px solid #2a5298;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0;
+        }
+
+        nav button {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 20px;
+            border: none;
+            background: #f5f5f5;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            color: #333;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        nav button:hover {
+            background: #e8e8e8;
+        }
+
+        nav button.active {
+            background: white;
+            color: #2a5298;
+            border-bottom-color: #2a5298;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .section h2 {
+            color: #1e3c72;
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #2a5298;
+            padding-bottom: 10px;
+        }
+
+        .section h3 {
+            color: #2a5298;
+            font-size: 1.5em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .section p, .section li {
+            font-size: 1.05em;
+            line-height: 1.8;
+            margin-bottom: 12px;
+            color: #444;
+        }
+
+        .section ul {
+            margin-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 20px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        table thead {
+            background: #1e3c72;
+            color: white;
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table tbody tr:hover {
+            background: #f9f9f9;
+        }
+
+        .color-model {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .color-box {
+            padding: 20px;
+            border-radius: 8px;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .color-box h4 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .rgb-box { background: linear-gradient(135deg, #ff0000 0%, #00ff00 50%, #0000ff 100%); }
+        .cmyk-box { background: linear-gradient(135deg, #00ffff 0%, #ff00ff 50%, #ffff00 100%); }
+        .hsv-box { background: linear-gradient(135deg, #ff0000 0%, #ffff00 25%, #00ff00 50%, #00ffff 75%, #0000ff 100%); }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .info-card {
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #2a5298;
+        }
+
+        .info-card strong {
+            color: #1e3c72;
+        }
+
+        .quiz-section {
+            background: #f5f5f5;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .quiz-question {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border-left: 4px solid #2a5298;
+        }
+
+        .quiz-question h4 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+        }
+
+        .option {
+            padding: 10px;
+            margin: 8px 0;
+            background: #f9f9f9;
+            border-radius: 4px;
+            border-left: 3px solid #ddd;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option:hover {
+            background: #e8e8e8;
+            border-left-color: #2a5298;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .solution {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            border-radius: 4px;
+        }
+
+        .solution.show {
+            display: block;
+        }
+
+        .solution-btn {
+            background: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .solution-btn:hover {
+            background: #218838;
+        }
+
+        .diagram {
+            background: #f0f4ff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-family: monospace;
+        }
+
+        footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            nav button {
+                min-width: 120px;
+                padding: 12px 15px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 Grafika Rastrowa</h1>
+            <p>Kurs dla technikum informatyczne - Pełny materiał edukacyjny</p>
+        </header>
+
+        <nav>
+            <button class="nav-btn active" data-section="wprowadzenie">Wprowadzenie</button>
+            <button class="nav-btn" data-section="formaty">Formaty i Kompresja</button>
+            <button class="nav-btn" data-section="rozdzielczosc">Rozdzielczość</button>
+            <button class="nav-btn" data-section="kolory">Modele Kolorów</button>
+            <button class="nav-btn" data-section="zaawansowane">Zaawansowane</button>
+            <button class="nav-btn" data-section="metadane">Metadane Pliku</button>
+            <button class="nav-btn" data-section="test">Test Wiedzy</button>
+        </nav>
+
+        <div class="content">
+            <!-- SEKCJA 1: WPROWADZENIE -->
+            <section id="wprowadzenie" class="section active">
+                <h2>Wprowadzenie do Grafiki Rastrowej</h2>
+
+                <h3>Czym jest grafika rastrowa?</h3>
+                <p>Grafika rastrowa (zwana także bitmapą) to obraz złożony z siatki punktów zwanych <strong>pikselami</strong> (ang. picture elements). Każdy piksel posiada określony kolor, a całość tworzy obraz, który widzimy na ekranie.</p>
+
+                <div class="highlight">
+                    <strong>Definicja:</strong> Grafika rastrowa to dwuwymiarowa tablica pikseli, gdzie każdy piksel zawiera informację o kolorze w określonym formacie.
+                </div>
+
+                <h3>Kiedy używać grafiki rastrowej?</h3>
+                <ul>
+                    <li><strong>Fotografie i zdjęcia</strong> - naturalne obrazy ze złożonymi gradientami kolorów</li>
+                    <li><strong>Grafika ze złożonymi teksturami</strong> - obrazy z fotoedytora</li>
+                    <li><strong>Obrazy o wysokim detalu</strong> - malarstwo cyfrowe</li>
+                    <li><strong>Sieci web i grafika ekranowa</strong> - optymalizacja dla wyświetlania</li>
+                </ul>
+
+                <h3>Historia formatów rastrowych</h3>
+                <p>Formaty rastrowe ewoluowały od prostych czarno-białych bitmap do zaawansowanych formatów obsługujących miliony kolorów i różne techniki kompresji.</p>
+
+                <div class="info-grid">
+                    <div class="info-card">
+                        <strong>Lata 80-te:</strong> BMP, GIF - pierwsze powszechne formaty
+                    </div>
+                    <div class="info-card">
+                        <strong>Lata 90-te:</strong> PNG, JPEG - wprowadzenie kompresji stratnej i bezstratnej
+                    </div>
+                    <div class="info-card">
+                        <strong>XXI wiek:</strong> WebP, AVIF - formaty nowoczesne, optymalizacja sieci web
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEKCJA 2: FORMATY I KOMPRESJA -->
+            <section id="formaty" class="section">
+                <h2>Formaty Grafiki Rastrowej</h2>
+
+                <p>Poniższa tabela porównuje popularne formaty grafiki rastrowej wraz z ich cechami:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cecha</th>
+                            <th>JPG</th>
+                            <th>PNG</th>
+                            <th>GIF</th>
+                            <th>TIFF</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Kompresja</strong></td>
+                            <td>Stratna</td>
+                            <td>Bezstratna</td>
+                            <td>Bezstratna</td>
+                            <td>Bezstratna</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Przezroczystość</strong></td>
+                            <td>Nie</td>
+                            <td>Tak (Alpha)</td>
+                            <td>Tak (1-bit)</td>
+                            <td>Tak</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Animacja</strong></td>
+                            <td>Nie</td>
+                            <td>Nie</td>
+                            <td>Tak</td>
+                            <td>Nie</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Rozmiar pliku</strong></td>
+                            <td>Bardzo mały</td>
+                            <td>Średni/Duży</td>
+                            <td>Mały</td>
+                            <td>Bardzo duży</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Zastosowanie</strong></td>
+                            <td>Zdjęcia</td>
+                            <td>Grafika/Web</td>
+                            <td>Animacje</td>
+                            <td>Druk/Archiwum</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Kompresja Stratna (Lossy) - JPEG</h3>
+                <p>Kompresja stratna usuwa części informacji o obrazie, które ludzkie oko nie widzi. Pozwala to na znaczne zmniejszenie rozmiaru pliku, ale powoduje nieodwracalną utratę danych.</p>
+
+                <div class="highlight">
+                    <strong>Zalety:</strong> Bardzo mały rozmiar pliku, idealne do fotografii<br>
+                    <strong>Wady:</strong> Utrata jakości, artefakty przy wysokiej kompresji, brak przezroczystości
+                </div>
+
+                <h3>Kompresja Bezstratna (Lossless) - PNG, GIF, TIFF</h3>
+                <p>Kompresja bezstratna zachowuje wszystkie informacje o obrazie. Można całkowicie zrekonstruować oryginalny obraz z pliku skompresowanego.</p>
+
+                <div class="highlight">
+                    <strong>Zalety:</strong> Brak utraty jakości, obsługa przezroczystości (PNG), idealne do grafiki<br>
+                    <strong>Wady:</strong> Większe pliki niż JPEG, wolniejsze dekompresowanie
+                </div>
+
+                <h3>GIF - Format Animowany</h3>
+                <ul>
+                    <li>Obsługuje do 256 kolorów (mała paleta kolorów)</li>
+                    <li>Wsparcie dla animacji i przezroczystości (1-bitowej)</li>
+                    <li>Popularne w internecie (memy, animacje)</li>
+                </ul>
+
+                <h3>TIFF - Format dla Profesjonalistów</h3>
+                <ul>
+                    <li>Format o wysokiej jakości, obsługuje wielowarstwowość</li>
+                    <li>Używany w druku i archiwizacji</li>
+                    <li>Bardzo duże rozmiary plików</li>
+                </ul>
+            </section>
+
+            <!-- SEKCJA 3: ROZDZIELCZOŚĆ -->
+            <section id="rozdzielczosc" class="section">
+                <h2>Rozdzielczość i Wymiary Obrazu</h2>
+
+                <h3>Rozdzielczość Pikselowa vs. Rozdzielczość Druku</h3>
+                <p>W grafice rastrowej rozdzielczość jest pojęciem dwuwymiarowym, które należy rozumieć w różnych kontekstach:</p>
+
+                <div class="info-grid">
+                    <div class="info-card">
+                        <strong>Rozdzielczość Pikselowa:</strong><br>
+                        1920×1080 pikseli - liczba pikseli w poziomie i pionie. Określa wielkość wyświetlanego obrazu na ekranie.
+                    </div>
+                    <div class="info-card">
+                        <strong>Rozdzielczość Druku (DPI/PPI):</strong><br>
+                        72 dpi/ppi - liczba pikseli (ppi) lub kropek (dpi) na jeden cal (2.54 cm). Określa jakość wydruku.
+                    </div>
+                </div>
+
+                <h3>Objaśnienie DPI vs. PPI</h3>
+
+                <div class="highlight">
+                    <strong>DPI (Dots Per Inch):</strong> Stosowane do urządzeń drukujących - liczba kropek atramentu na cal<br><br>
+                    <strong>PPI (Pixels Per Inch):</strong> Stosowane do obrazów cyfrowych - liczba pikseli na cal<br><br>
+                    <strong>Praktycznie:</strong> Terminy są często używane zamiennie w kontekście rozdzielczości obrazów cyfrowych
+                </div>
+
+                <h3>Tabela: Rozdzielczości Standardowe</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nazwa</th>
+                            <th>Rozdzielczość (piksele)</th>
+                            <th>Zastosowanie</th>
+                            <th>Rozmiar wydruku (72 dpi)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>QVGA</td>
+                            <td>320×240</td>
+                            <td>Urządzenia mobilne stare</td>
+                            <td>4.4×3.3 cale</td>
+                        </tr>
+                        <tr>
+                            <td>HD (720p)</td>
+                            <td>1280×720</td>
+                            <td>Wideo, streaming</td>
+                            <td>17.8×10 cali</td>
+                        </tr>
+                        <tr>
+                            <td>Full HD (1080p)</td>
+                            <td>1920×1080</td>
+                            <td>Monitory, telewizja</td>
+                            <td>26.7×15 cali</td>
+                        </tr>
+                        <tr>
+                            <td>4K (2160p)</td>
+                            <td>3840×2160</td>
+                            <td>Monitory wysokiej klasy</td>
+                            <td>53.3×30 cali</td>
+                        </tr>
+                        <tr>
+                            <td>Typowy wydruk (300 dpi)</td>
+                            <td>2400×1800</td>
+                            <td>Fotografia drukowana</td>
+                            <td>8×6 cali</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Wzór: Przeliczanie DPI/PPI</h3>
+                <div class="diagram">
+Rozmiar fizyczny (cale) = Rozdzielczość pikseli / DPI<br>
+Przykład: 1920 pikseli / 96 dpi = 20 cali szerokości<br><br>
+Rozdzielczość pikseli = Rozmiar fizyczny × DPI<br>
+Przykład: 4 cale × 300 dpi = 1200 pikseli
+                </div>
+
+                <h3>Gęstość Pikseli - Znaczenie dla Użytkownika</h3>
+                <ul>
+                    <li><strong>Niska gęstość (72 dpi):</strong> Piksele widoczne gołym okiem - obrazy wyglądają zubożało</li>
+                    <li><strong>Średnia gęstość (96-150 dpi):</strong> Optimum dla monitorów - piksele niewidoczne</li>
+                    <li><strong>Wysoka gęstość (300 dpi):</strong> Standard dla druku - najwyższa jakość wydruku</li>
+                    <li><strong>Bardzo wysoka (600+ dpi):</strong> Profesjonalny druk, archiwa, dokumentacja</li>
+                </ul>
+            </section>
+
+            <!-- SEKCJA 4: MODELE KOLORÓW -->
+            <section id="kolory" class="section">
+                <h2>Modele Kolorów w Grafice Rastrowej</h2>
+
+                <h3>Model RGB (Red, Green, Blue) - Światło Addytywne</h3>
+                <p>Model RGB opisuje kolory poprzez mieszanie światła czerwonego, zielonego i niebieskiego. Każda barwa ma wartość od 0 do 255 (lub 0-100%).</p>
+
+                <div class="color-box rgb-box">
+                    <h4>RGB: Mieszanie Świateł</h4>
+                    <p>Czarna barwa: RGB(0, 0, 0)</p>
+                    <p>Biała barwa: RGB(255, 255, 255)</p>
+                    <p>Czerwona barwa: RGB(255, 0, 0)</p>
+                </div>
+
+                <div class="highlight">
+                    <strong>Zastosowanie:</strong> Monitory, telewizory, projektory - wszystkie urządzenia emitujące światło<br>
+                    <strong>Formuła:</strong> Kolor = R + G + B (mieszanie addytywne)<br>
+                    <strong>Przykład:</strong> Żółty = R(255) + G(255) + B(0)
+                </div>
+
+                <h3>Model CMYK (Cyan, Magenta, Yellow, Key/Black) - Farby Subtraktywne</h3>
+                <p>Model CMYK opisuje kolory poprzez mieszanie farb: cyan, magenta, żółty i czarny. Używany w druku.</p>
+
+                <div class="color-box cmyk-box">
+                    <h4>CMYK: Mieszanie Farb</h4>
+                    <p>Biała barwa: C(0), M(0), Y(0), K(0)</p>
+                    <p>Czarna barwa: K(100)</p>
+                    <p>Czerwona barwa: M(100), Y(100), K(0)</p>
+                </div>
+
+                <div class="highlight">
+                    <strong>Zastosowanie:</strong> Druk offset, drukarki atramentowe, druk kolorowy<br>
+                    <strong>Charakterystyka:</strong> Kolory powstają przez zastosowanie farby na papierze - mieszanie subtraktywne<br>
+                    <strong>Problem:</strong> Czarny (K) dodawany osobno, bo mieszanie C+M+Y nie daje czerni
+                </div>
+
+                <h3>Model HSV (Hue, Saturation, Value) - Intuicyjny Model</h3>
+                <p>Model oparty na percepcji człowieka - łatwiej się go używa w edytorach grafiki.</p>
+
+                <div class="color-box hsv-box">
+                    <h4>HSV: Model Intuicyjny</h4>
+                    <p><strong>H (Hue):</strong> Barwa - 0-360°</p>
+                    <p><strong>S (Saturation):</strong> Nasycenie - 0-100%</p>
+                    <p><strong>V (Value):</strong> Jasność - 0-100%</p>
+                </div>
+
+                <div class="highlight">
+                    <strong>Komponenty:</strong><br>
+                    • <strong>Hue (0-360°):</strong> Kolor podstawowy (czerwony, zielony, niebieski, itp.)<br>
+                    • <strong>Saturation (0-100%):</strong> Czystość koloru (0% = szary, 100% = czysty kolor)<br>
+                    • <strong>Value (0-100%):</strong> Jasność (0% = czarny, 100% = najjaśniejszy)
+                </div>
+
+                <h3>Inne Modele Kolorów</h3>
+
+                <div class="info-grid">
+                    <div class="info-card">
+                        <strong>LAB (CIE L*a*b*):</strong> Model niezależny od urządzenia, oparty na percepcji ludzkiej. Używany w edycji zaawansowanej.
+                    </div>
+                    <div class="info-card">
+                        <strong>Grayscale (Odcienie Szarości):</strong> Model jednokanałowy - 256 odcieni szarości (0-255). Używany do fotografii czarno-białych.
+                    </div>
+                    <div class="info-card">
+                        <strong>Indexed Color (Paleta Kolorów):</strong> Ograniczona paleta (max 256 kolorów). Używany w GIF i starszych formatach.
+                    </div>
+                </div>
+
+                <h3>Konwersja Między Modelami</h3>
+                <p>Współczesne edytory grafiki umożliwiają pracę w różnych modelach. Konwersja między RGB a CMYK może powodować utratę lub zmianę kolorów, dlatego należy pracować w docelowym modelu od początku.</p>
+            </section>
+
+            <!-- SEKCJA 5: ZAAWANSOWANE -->
+            <section id="zaawansowane" class="section">
+                <h2>Zaawansowane Techniki Grafiki Rastrowej</h2>
+
+                <h3>Kanał Alpha (Przezroczystość)</h3>
+                <p>Kanał alfa to dodatkowy kanał danych, który opisuje przezroczystość każdego piksela. Wartości od 0 (całkowicie przezroczysty) do 255 (całkowicie nieprzezroczysty).</p>
+
+                <div class="highlight">
+                    <strong>Notacja RGBA:</strong> RGB + Alpha<br>
+                    Przykład: RGBA(255, 0, 0, 128) = czerwony z 50% przezroczystością<br><br>
+                    <strong>Formaty obsługujące alpha:</strong> PNG, TIFF, GIF (1-bitowy)<br>
+                    <strong>Formaty bez obsługi:</strong> JPEG, BMP
+                </div>
+
+                <h3>Korekcja Gamma (Gamma Correction)</h3>
+                <p>Gamma to parametr opisujący sposób, w jaki wartości pikseli są mapowane na jasność wyświetlaną na ekranie. Kompensuje nieliniową odpowiedź monitorów.</p>
+
+                <div class="diagram">
+Formuła: Output = Input^(1/Gamma)<br>
+Gamma = 1.0: Brak korekcji (ideał)<br>
+Gamma = 2.2: Standardowe dla monitorów sRGB<br>
+Gamma < 1.0: Obraz jaśniejszy<br>
+Gamma > 1.0: Obraz ciemniejszy
+                </div>
+
+                <div class="highlight">
+                    <strong>Praktyczne zastosowanie:</strong><br>
+                    • Kalibracja monitorów<br>
+                    • Przetwarzanie fotografii<br>
+                    • Gry komputerowe (efekty wizualne)<br>
+                    • Kino - standard gamma 2.4
+                </div>
+
+                <h3>Saturacja (Nasycenie Koloru)</h3>
+                <p>Saturacja określa czystość i intensywność koloru. Im wyższa saturacja, tym bardziej "żywy" i nasycony jest kolor.</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Saturacja</th>
+                            <th>Opis</th>
+                            <th>Wygląd</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0%</td>
+                            <td>Całkowicie odnasynilona</td>
+                            <td>Szary obraz (brak kolorów)</td>
+                        </tr>
+                        <tr>
+                            <td>50%</td>
+                            <td>Półmocne kolory</td>
+                            <td>Pastelow, stonowane</td>
+                        </tr>
+                        <tr>
+                            <td>100%</td>
+                            <td>Pełna saturacja</td>
+                            <td>Żywe, czysty kolory</td>
+                        </tr>
+                        <tr>
+                            <td>150%+</td>
+                            <td>Przesycone kolory</td>
+                            <td>Nienaturalne, sztucznie nasycone</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Monochromatyzm - Obrazy Czarno-Białe</h3>
+                <p>Monochromatyczne obrazy używają tylko jednego kanału (odcienie szarości) zamiast trzech kanałów RGB.</p>
+
+                <div class="info-grid">
+                    <div class="info-card">
+                        <strong>True Grayscale:</strong> Jednotkanałowy obraz - 256 odcieni szarości. Mniejszy rozmiar pliku.
+                    </div>
+                    <div class="info-card">
+                        <strong>RGB Converted:</strong> Trójkanałowy obraz z identycznymi wartościami R=G=B. Większy rozmiar, ale zgodny ze wszystkimi aplikacjami.
+                    </div>
+                </div>
+
+                <h3>Koncepcja Glowmapping</h3>
+                <p>Glowmapping to technika, gdzie mapa emit (brightness map) określa, które części tekstury emitują światło. Używana w grach 3D i zaawansowanej wizualizacji.</p>
+
+                <h3>Bitwise Operations - Pracę z Pikselami</h3>
+                <p>Zaawansowani programiści mogą manipulować pikselami bezpośrednio usando bitowych operacji:</p>
+                <ul>
+                    <li><strong>Bitshift:</strong> Szybka zmiana jasności (>> zmniejsza, << zwiększa)</li>
+                    <li><strong>AND/OR/XOR:</strong> Maskowanie kanałów i koloru</li>
+                    <li><strong>NOT:</strong> Negacja koloru (inwersja)</li>
+                </ul>
+            </section>
+
+            <!-- SEKCJA 6: METADANE PLIKU -->
+            <section id="metadane" class="section">
+                <h2>Informacje Odczytywane z Pliku Graficznego</h2>
+
+                <h3>Metadane EXIF (Exchange Image File Format)</h3>
+                <p>Metadane EXIF zawierają informacje o fotografii cyfrowej. Dodawane automatycznie przez aparaty fotograficzne.</p>
+
+                <div class="highlight">
+                    <strong>Gdzie znajduje się EXIF?</strong> W pliku JPG, TIFF, PNG (opcjonalnie)<br>
+                    <strong>Kontrola prywatności:</strong> Wiele aplikacji umożliwia usunięcie EXIF przed udostępnieniem fotografii
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metadane EXIF</th>
+                            <th>Znaczenie</th>
+                            <th>Przykład</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Producent i Model</strong></td>
+                            <td>Marka i model aparatu</td>
+                            <td>Canon EOS 5D Mark IV</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data i Czas</strong></td>
+                            <td>Dokładna data i godzina wykonania zdjęcia</td>
+                            <td>2024-01-25 14:30:45</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ISO</strong></td>
+                            <td>Czułość sensora na światło</td>
+                            <td>400, 800, 1600</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Przesłona (f-number)</strong></td>
+                            <td>Otwór obiektywu (głębia ostrości)</td>
+                            <td>f/2.8, f/5.6</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Czas Ekspozycji</strong></td>
+                            <td>Czas otwarcia migawki</td>
+                            <td>1/1000 s, 1 s</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ogniskowa Obiektywu</strong></td>
+                            <td>Zoom (w milimetrach)</td>
+                            <td>50mm, 200mm</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Współrzędne GPS</strong></td>
+                            <td>Lokalizacja geograficzna (jeśli włączona)</td>
+                            <td>52.1975° N, 21.0122° E</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Balanser Bieli</strong></td>
+                            <td>Sposób kalibracji odbioru światła</td>
+                            <td>Daylight, Tungsten, Flash</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Właściwości Podstawowe Pliku</h3>
+
+                <div class="info-grid">
+                    <div class="info-card">
+                        <strong>Wymiary (Rozdzielczość Pikselowa):</strong><br>
+                        Szerokość × Wysokość w pikselach (np. 1920×1080)
+                    </div>
+                    <div class="info-card">
+                        <strong>Głębia Koloru (Bitность):</strong><br>
+                        8-bit (256 kolorów), 24-bit RGB (16.7M), 32-bit RGBA
+                    </div>
+                    <div class="info-card">
+                        <strong>Model Koloru:</strong><br>
+                        RGB, CMYK, Grayscale, Indexed Color
+                    </div>
+                    <div class="info-card">
+                        <strong>Rozmiar Pliku (Bajty):</strong><br>
+                        Całkowita wielkość pliku na dysku (KB, MB)
+                    </div>
+                    <div class="info-card">
+                        <strong>Rozdzielczość Druku (DPI/PPI):</strong><br>
+                        Liczba pikseli na cal (72, 96, 300, 600 dpi)
+                    </div>
+                    <div class="info-card">
+                        <strong>Profil Koloru (ICC):</strong><br>
+                        Plik ICC definiujący renderowanie kolorów dla konkretnego urządzenia
+                    </div>
+                </div>
+
+                <h3>XMP (Extensible Metadata Platform) i IPTC</h3>
+                <p>Bardziej zaawansowane formaty metadanych:</p>
+                <ul>
+                    <li><strong>XMP:</strong> Format Adobe - dodatkowe informacje o autorze, licencji, słowa kluczowe</li>
+                    <li><strong>IPTC:</strong> Standard międzynarodowy - informacje redakcyjne, opisowe, prawa autorskie</li>
+                </ul>
+
+                <h3>Jak Odczytać Metadane?</h3>
+                <div class="highlight">
+                    <strong>W Systemie Operacyjnym:</strong><br>
+                    • Windows: Prawy klik → Właściwości → Szczegóły<br>
+                    • macOS: Cmd+I (Get Info)<br>
+                    • Linux: file, exiftool, identify (ImageMagick)<br><br>
+                    <strong>W Aplikacjach Webowych:</strong><br>
+                    • ExifTool online<br>
+                    • Jimpl.info<br>
+                    • Metadata Anonymization Toolkit
+                </div>
+
+                <h3>Zagrożenia Prywatności</h3>
+                <p>Metadane EXIF mogą zawierać wrażliwe informacje:</p>
+                <ul>
+                    <li><strong>Lokalizacja (GPS):</strong> Dokładne miejsce wykonania zdjęcia</li>
+                    <li><strong>Data i czas:</strong> Dokładny moment wykonania</li>
+                    <li><strong>Sprzęt:</strong> Model aparatu (mogący wskazywać na majątkowe możliwości)</li>
+                </ul>
+            </section>
+
+            <!-- SEKCJA 7: TEST -->
+            <section id="test" class="section">
+                <h2>Test Wiedzy - Grafika Rastrowa</h2>
+                <p>Sprawdź swoją wiedzę poprzez test z 10 pytań jednokrotnego wyboru. Kliknij przycisk "Pokaż Rozwiązanie" aby sprawdzić poprawną odpowiedź.</p>
+
+                <div class="quiz-section">
+                    <!-- Pytanie 1 -->
+                    <div class="quiz-question">
+                        <h4>1. Czym jest piksel?</h4>
+                        <label class="option">
+                            <input type="radio" name="q1" value="A"> A) Mała kwadratowa jednostka reprezentująca jeden kolor w obrazie rastrowym
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="B"> B) Część kodu programu odpowiadająca za wyświetlanie grafiki
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="C"> C) Matematyczne równanie opisujące kąty w obrazie
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="D"> D) Narzędzie do edycji kolorów w Photoshopie
+                        </label>
+                        <button class="solution-btn" onclick="toggleSolution(this)">Pokaż Rozwiązanie</button>
+                        <div class="solution">
+                            <strong>Prawidłowa odpowiedź: A</strong><br>
+                            Piksel (picture element) to najmniejsza jednostka obrazu rastrowego - mały kwadrat o określonym kolorze. Cały obraz rastrowy to siatka milionów pikseli.
+                        </div>
+                    </div>
+
+                    <!-- Pytanie 2 -->
+                    <div class="quiz-question">
+                        <h4>2. Jaka jest główna różnica między kompresją stratną a bezstratną?</h4>
+                        <label class="option">
+                            <input type="radio" name="q2" value="A"> A) Kompresja stratna zmniejsza rozmiar pliku, bezstratna zwiększa jakość
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="B"> B) Kompresja stratna usuwa część informacji i zmniejsza rozmiar, bezstratna zachowuje wszystkie dane
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="C"> C) Kompresja bezstratna jest szybsza, stratna jest wolniejsza
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="D"> D) Brak rzeczywistej różnicy - to tylko nazwy marketingowe
+                        </label>
+                        <button class="solution-btn" onclick="toggleSolution(this)">Pokaż Rozwiązanie</button>
+                        <div class="solution">
+                            <strong>Prawidłowa odpowiedź: B</strong><br>
+                            Kompresja stratna (JPEG) usuwa informacje i zmniejsza rozmiar. Kompresja bezstratna (PNG) zachowuje wszystkie dane i można całkowicie zrekonstruować obraz.
+                        </div>
+                    </div>
+
+                    <!-- Pytanie 3 -->
+                    <div class="quiz-question">
+                        <h4>3. Rozdzielczość 1920×1080 pikseli oznacza:</h4>
+                        <label class="option">
+                            <input type="radio" name="q3" value="A"> A) Obraz o wysokości 1920 pikseli i szerokości 1080 pikseli
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="B"> B) Obraz o szerokości 1920 pikseli i wysokości 1080 pikseli
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="C"> C) DPI wynosząca 1920 na jeden cal
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="D"> D) Ciśnienie drukarki wynoszącej 1920 i 1080 punktów
+                        </label>
+                        <button class="solution-btn" onclick="toggleSolution(this)">Pokaż Rozwiązanie</button>
+                        <div class="solution">
+                            <strong>Prawidłowa odpowiedź: B</strong><br>
+                            Rozdzielczość pikselowa podawana jest jako szerokość × wysokość. 1920×1080 oznacza 1920 pikseli w poziomie i 1080 w pionie.
+                        </div>
+                    </div>
+
+                    <!-- Pytanie 4 -->
+                    <div class="quiz-question">
+                        <h4>4. Co oznacza DPI (Dots Per Inch)?</h4>
+                        <label class="option">
+                            <input type="radio" name="q4" value="A"> A) Liczbę pikseli na jeden centimetr
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="B"> B) Liczbę pikseli w pliku obrazu
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="C"> C) Liczbę kropek atramentu na jeden cal drukowanego obrazu
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="D"> D) Cyfrowy System Identyfikacji Pikseli
+                        </label>
+                        <button class="solution-btn" onclick="toggleSolution(this)">Pokaż Rozwiązanie</button>
+                        <div class="solution">
+                            <strong>Prawidłowa odpowiedź: C</strong><br>
+                            DPI (Dots Per Inch) określa liczbę kropek atramentu na jeden cal wydruku. Wyższa wartość DPI = lepszej jakości wydruk. Standard druku to 300 DPI.
+                        </div>
+                    </div>
+
+                    <!-- Pytanie 5 -->
+                    <div class="quiz-question">
+                        <h4>5. Które z poniższych formatów obsługuje przezroczystość (kanał Alpha)?</h4>
+                        <label class="option">
+                            <input type="radio" name="q5" value="A"> A) Tylko JPEG
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="B"> B) PNG i GIF, ale nie TIFF
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="C"> C) PNG, GIF (1-bitowy) i TIFF
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="D"> D) Wszystkie nowoczesne formaty obsługują alpha
+                        </label>
+                        <button class="solution-btn" onclick="toggleSolution(this)">Pokaż Rozwiązanie</button>
+                        <div class="solution">
+                            <strong>Prawidłowa odpowiedź: C</strong><br>
+                            PNG, GIF i TIFF obsługują przezroczystość. JPEG nie obsługuje kanału alpha. GIF obsługuje tylko przezroczystość 1-bitową (do/nie przezroczyste).
+                        </div>
+                    </div>
+
+                    <!-- Pytanie 6 -->
+                    <div class="quiz-question">
+                        <h4>6. Model RGB stosuje:</h4>
+                        <label class="option">
+                            <input type="radio" name="q6" value="A"> A) Mieszanie farb (subtraktywne)
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="B"> B) Mieszanie świateł (addytywne)
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="C"> C) Paletę ograniczoną do 256 kolorów
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="D"> D) Odcienie szarości od czerni do bieli
+                        </label>
+                        <button class="solution-btn" onclick="toggleSolution(this)">Pokaż Rozwiązanie</button>
+                        <div class="solution">
+                            <strong>Prawidłowa odpowiedź: B</strong><br>
+                            RGB (Red, Green, Blue) to model addytywny - mieszanie świateł. Używany w monitorach, TV, projektorach. CMYK natomiast to model subtraktywny (farby w druku).
+                        </div>
+                    </div>
+
+                    <!-- Pytanie 7 -->
+                    <div class="quiz-question">
+                        <h4>7. CMYK to model kolorów używany przede wszystkim do:</h4>
+                        <label class="option">
+                            <input type="radio" name="q7" value="A"> A) Wyświetlania obrazów na monitorze
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="B"> B) Edycji fotografii cyfrowych
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="C"> C) Druku kolorowego (offsetowy, atramentowy)
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="D"> D) Nagrywania wideo
+                        </label>
+                        <button class="solution-btn" onclick="toggleSolution(this)">Pokaż Rozwiązanie</button>
+                        <div class="solution">
+                            <strong>Prawidłowa odpowiedź: C</strong><br>
+                            CMYK (Cyan, Magenta, Yellow, Key) to model subtraktywny oparty na mieszaniu farb. Jest standardem w druku. Czarny (K) dodawany osobnie, bo C+M+Y nie daje idealne czerni.
+                        </div>
+                    </div>
+
+                    <!-- Pytanie 8 -->
+                    <div class="quiz-question">
+                        <h4>8. Kanał Alpha w RGBA(255, 0, 0, 128) oznacza:</h4>
+                        <label class="option">
+                            <input type="radio" name="q8" value="A"> A) Czysty czerwony kolor bez przezroczystości
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="B"> B) Czerwony kolor z 50% przezroczystością
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="C"> C) Czarny kolor (RGB 0,0,0)
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="D"> D) Biały kolor z niskim nasyceniem
+                        </label>
+                        <button class="solution-btn" onclick="toggleSolution(this)">Pokaż Rozwiązanie</button>
+                        <div class="solution">
+                            <strong>Prawidłowa odpowiedź: B</strong><br>
+                            RGBA(255, 0, 0, 128): RGB(255,0,0) = czysty czerwony, alfa=128 to 50% (128/256). Wartość alfa od 0 (całkowicie przezroczysty) do 255 (całkowicie opakowy).
+                        </div>
+                    </div>
+
+                    <!-- Pytanie 9 -->
+                    <div class="quiz-question">
+                        <h4>9. Które metadane EXIF stanowią zagrożenie dla prywatności?</h4>
+                        <label class="option">
+                            <input type="radio" name="q9" value="A"> A) Model aparatu i data zdjęcia
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q9" value="B"> B) Ogniskowa obiektywu i przesłona
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q9" value="C"> C) Współrzędne GPS (lokalizacja) i dokładna godzina
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q9" value="D"> D) Wszystkie metadane EXIF zawsze są bezpieczne
+                        </label>
+                        <button class="solution-btn" onclick="toggleSolution(this)">Pokaż Rozwiązanie</button>
+                        <div class="solution">
+                            <strong>Prawidłowa odpowiedź: C</strong><br>
+                            Współrzędne GPS i dokładne godziny mogą zdradź lokalizację i rutynę dnia. Stanowią zagrożenie prywatności. Przed udostępnieniem zdjęć należy usunąć EXIF.
+                        </div>
+                    </div>
+
+                    <!-- Pytanie 10 -->
+                    <div class="quiz-question">
+                        <h4>10. Która z poniższych rozdzielczości jest standardem dla druku profesjonalnego wysokiej jakości?</h4>
+                        <label class="option">
+                            <input type="radio" name="q10" value="A"> A) 72 DPI
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="B"> B) 150 DPI
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="C"> C) 300 DPI
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="D"> D) 600+ DPI (tylko do archiwów)
+                        </label>
+                        <button class="solution-btn" onclick="toggleSolution(this)">Pokaż Rozwiązanie</button>
+                        <div class="solution">
+                            <strong>Prawidłowa odpowiedź: C</strong><br>
+                            300 DPI to standard dla druku profesjonalnego. 72 DPI to minimum dla ekranów. 150 DPI to kompromis druk-ekran. 600+ DPI dla archiw i dokumentacji.
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 40px; text-align: center;">Koniec testu</h3>
+                <p style="text-align: center; color: #666;">Dziękujemy za wykonanie testu! Powodzenia w nauce grafiki rastrowej.</p>
+            </section>
+        </div>
+
+        <footer>
+            <p>© 2026 Kurs Grafiki Rastrowej dla Technikum Informatyczne | Autorstwo: Materiały edukacyjne ZPE + rozszerzenie o zaawansowane tematy</p>
+        </footer>
+    </div>
+
+    <script>
+        // Nawigacja między sekcjami
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const sections = document.querySelectorAll('.section');
+
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Usunięcie klasy active ze wszystkich przycisków
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                // Usunięcie klasy active ze wszystkich sekcji
+                sections.forEach(section => section.classList.remove('active'));
+                
+                // Dodanie klasy active do klikniętego przycisku
+                button.classList.add('active');
+                // Dodanie klasy active do odpowiedniej sekcji
+                const sectionId = button.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+
+        // Funkcja do pokazywania/ukrywania rozwiązań
+        function toggleSolution(button) {
+            const solution = button.nextElementSibling;
+            solution.classList.toggle('show');
+            button.textContent = solution.classList.contains('show') ? 'Ukryj Rozwiązanie' : 'Pokaż Rozwiązanie';
+        }
+
+        // Automatyczne zaznaczanie poprawnej odpowiedzi (opcjonalnie)
+        function checkAnswer(questionNum, correctAnswer) {
+            const radios = document.querySelectorAll(`input[name="q${questionNum}"]`);
+            radios.forEach(radio => {
+                if (radio.value === correctAnswer) {
+                    radio.style.accentColor = '#28a745';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
